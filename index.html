@@ -1,1 +1,1150 @@
 
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vịnh Hạ Long — Nơi Rồng Hạ Thế | Ha Long Bay</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond (Editorial Serif) & Be Vietnam Pro (Clean Sans with full Vietnamese support) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
+                    },
+                    colors: {
+                        lagoon: {
+                            950: '#021214',
+                            900: '#041d20',
+                            800: '#083236',
+                            700: '#0e4d52',
+                        },
+                        jade: {
+                            500: '#157f76',
+                            400: '#2ba89c',
+                            300: '#78d4ca',
+                        },
+                        limestone: {
+                            100: '#f5f1e6',
+                            200: '#e6decb',
+                            300: '#cbbba0',
+                        },
+                        lacquer: {
+                            gold: '#d9a75a',
+                            amber: '#f2cb7e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Atmospheric Variables controlled by Time-of-Day Switcher */
+        :root {
+            --bg-deep: #021214;
+            --bg-surface: rgba(6, 36, 40, 0.72);
+            --accent-primary: #d9a75a;
+            --accent-secondary: #78d4ca;
+            --border-gold: rgba(217, 167, 90, 0.28);
+            --glow-color: rgba(21, 127, 118, 0.25);
+        }
+
+        body[data-mood="sunset"] {
+            --bg-deep: #140b18;
+            --bg-surface: rgba(34, 17, 36, 0.75);
+            --accent-primary: #f29d52;
+            --accent-secondary: #f472b6;
+            --border-gold: rgba(242, 157, 82, 0.32);
+            --glow-color: rgba(217, 91, 67, 0.25);
+        }
+
+        body[data-mood="night"] {
+            --bg-deep: #020817;
+            --bg-surface: rgba(7, 19, 43, 0.78);
+            --accent-primary: #5eead4;
+            --accent-secondary: #38bdf8;
+            --border-gold: rgba(94, 234, 212, 0.28);
+            --glow-color: rgba(45, 212, 191, 0.22);
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            transition: background-color 1s ease;
+        }
+
+        /* Vietnamese Lacquerware (Sơn Mài) & Ink Wash Aesthetic Borders */
+        .lacquer-card {
+            background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(245, 241, 230, 0.08);
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .lacquer-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.75), 0 0 25px var(--glow-color);
+        }
+
+        /* Subtle Grain Texture Overlay for Paper/Lacquer Feel */
+        .paper-grain {
+            background-image: radial-gradient(rgba(245, 241, 230, 0.04) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* Gold Shimmer Text */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #f5f1e6 0%, #f2cb7e 45%, #d9a75a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.9s ease-out, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Pulse Ring for Map Hotspots */
+        @keyframes ripple {
+            0% { transform: scale(0.9); opacity: 0.9; }
+            100% { transform: scale(2.4); opacity: 0; }
+        }
+        .hotspot-ring {
+            animation: ripple 2.4s infinite cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Hide scrollbar for clean horizontal scroll on mobile */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body data-mood="dawn" class="text-limestone-100 font-sans antialiased selection:bg-lacquer-gold selection:text-lagoon-950 overflow-x-hidden paper-grain">
+
+    <!-- Floating Top Navigation Bar -->
+    <header class="fixed top-0 inset-x-0 z-50 transition-all duration-500 bg-gradient-to-b from-black/70 via-black/35 to-transparent backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-16 sm:h-20 flex items-center justify-between">
+            <!-- Brand Emblem -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded-full border border-lacquer-gold/60 bg-lagoon-900/90 flex items-center justify-center text-lacquer-amber shadow-lg group-hover:scale-105 transition-transform">
+                    <!-- Custom Minimalist Karst & Wave SVG Icon -->
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M3 17c2.5-2 5-2 7.5 0s5 2 7.5 0 3-1.5 3-1.5" stroke-linecap="round"/>
+                        <path d="M6 15L9.5 7l3 5 3-7 3.5 10" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-serif text-xl sm:text-2xl font-bold tracking-wide text-limestone-100 block leading-none">
+                        HẠ LONG
+                    </span>
+                    <span class="text-[10px] tracking-[0.22em] uppercase text-lacquer-gold/90 font-medium" data-i18n="navSubtitle">
+                        Di sản & Hồn cốt
+                    </span>
+                </div>
+            </a>
+
+            <!-- Desktop Section Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-limestone-200/85">
+                <a href="#atmosphere" class="hover:text-lacquer-amber transition-colors" data-i18n="navMoods">Sắc thái Vịnh</a>
+                <a href="#explorer" class="hover:text-lacquer-amber transition-colors" data-i18n="navMap">Kỳ quan & Huyền thoại</a>
+                <a href="#localsoul" class="hover:text-lacquer-amber transition-colors" data-i18n="navCulture">Hồn cốt Đất Mỏ</a>
+            </nav>
+
+            <!-- Right Controls: Ambient Sound & VI/EN Bilingual Toggle -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <!-- Ocean Soundscape Button -->
+                <button id="audio-toggle" onclick="toggleSoundscape()" aria-label="Bật/Tắt âm thanh sóng biển" class="px-3 sm:px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-lacquer-gold/30 text-limestone-100 text-xs font-medium flex items-center gap-2 transition-all">
+                    <i id="audio-icon" class="fa-solid fa-volume-xmark text-lacquer-gold"></i>
+                    <span id="audio-label" class="hidden sm:inline" data-i18n="soundOff">Sóng Vịnh</span>
+                </button>
+
+                <!-- Bilingual Switcher (VI / EN) -->
+                <div class="flex items-center rounded-full bg-black/50 border border-lacquer-gold/35 p-0.5 text-xs font-semibold">
+                    <button id="btn-vi" onclick="setLanguage('vi')" class="px-2.5 py-1 rounded-full bg-lacquer-gold text-lagoon-950 transition-all">
+                        VI
+                    </button>
+                    <button id="btn-en" onclick="setLanguage('en')" class="px-2.5 py-1 rounded-full text-limestone-200 hover:text-white transition-all">
+                        EN
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- HERO SECTION: FULL-VIEWPORT INTERACTIVE SEASCAPE CANVAS               -->
+    <!-- ===================================================================== -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-16">
+        <!-- Dynamic HTML5 Canvas Painting Ha Long Bay Karsts, Mist, Sunbeams & Ripples -->
+        <canvas id="halong-canvas" class="absolute inset-0 w-full h-full block z-0"></canvas>
+
+        <!-- Vignette Overlay for Text Contrast -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-[var(--bg-deep)] z-10 pointer-events-none"></div>
+
+        <!-- Editorial Hero Content -->
+        <div class="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6 sm:space-y-8">
+            <!-- Top Heritage Seal -->
+            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-lacquer-gold/40 text-lacquer-amber text-xs sm:text-sm tracking-widest uppercase">
+                <i class="fa-solid fa-compass text-xs"></i>
+                <span data-i18n="heroBadge">20°54′B 107°12′Đ • Di sản Thiên nhiên Thế giới</span>
+            </div>
+
+            <!-- Main Poetic Serif Title -->
+            <div class="space-y-2">
+                <p class="font-serif italic text-xl sm:text-2xl md:text-3xl text-jade-300/95 tracking-wide" data-i18n="heroPreTitle">
+                    Nơi Rồng Thiêng Hạ Thế Giữa Ngàn Trùng Sóng Biếc
+                </p>
+                <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight text-gold-gradient leading-[1.08] drop-shadow-2xl" data-i18n="heroTitle">
+                    Vịnh Hạ Long
+                </h1>
+            </div>
+
+            <!-- Editorial Subtitle -->
+            <p class="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-limestone-100/90 leading-relaxed font-light" data-i18n="heroDesc">
+                Hơn 1.600 đảo đá vôi trầm mặc vươn lên từ làn nước ngọc lục bảo — một bức tranh thủy mặc khổng lồ được thiên nhiên tạc nên suốt 500 triệu năm kiến tạo, và là niềm tự hào bất tận trong tim mỗi người con đất mỏ Quảng Ninh.
+            </p>
+
+            <!-- Interactive Quick Mood Selector Pills right on Hero -->
+            <div class="pt-2 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+                <button onclick="setMood('dawn')" data-mood-btn="dawn" class="mood-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium border transition-all flex items-center gap-2 bg-lacquer-gold text-lagoon-950 border-lacquer-gold shadow-lg">
+                    <i class="fa-solid fa-sun"></i>
+                    <span data-i18n="moodDawn">Bình minh Sương khói</span>
+                </button>
+                <button onclick="setMood('sunset')" data-mood-btn="sunset" class="mood-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium border transition-all flex items-center gap-2 bg-black/45 backdrop-blur-md text-limestone-100 border-white/20 hover:border-lacquer-gold/60">
+                    <i class="fa-solid fa-cloud-sun"></i>
+                    <span data-i18n="moodSunset">Hoàng hôn Rực lửa</span>
+                </button>
+                <button onclick="setMood('night')" data-mood-btn="night" class="mood-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium border transition-all flex items-center gap-2 bg-black/45 backdrop-blur-md text-limestone-100 border-white/20 hover:border-lacquer-gold/60">
+                    <i class="fa-solid fa-moon"></i>
+                    <span data-i18n="moodNight">Đêm Lân tinh</span>
+                </button>
+            </div>
+
+            <!-- Scroll Down Cue -->
+            <div class="pt-6">
+                <a href="#atmosphere" class="inline-flex flex-col items-center gap-2 text-xs uppercase tracking-[0.25em] text-limestone-200/70 hover:text-lacquer-amber transition-colors">
+                    <span data-i18n="scrollCue">Khám phá chiều sâu di sản</span>
+                    <i class="fa-solid fa-chevron-down animate-bounce text-lacquer-gold"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 1: SỐ LIỆU KIẾN TẠO & CHUYỂN ĐỘNG THỜI GIAN TRÊN VỊNH          -->
+    <!-- ===================================================================== -->
+    <section id="atmosphere" class="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto">
+        <!-- Editorial Intro Quote -->
+        <div class="reveal max-w-4xl mx-auto text-center mb-16 sm:mb-24 space-y-5">
+            <span class="text-xs font-semibold uppercase tracking-[0.28em] text-lacquer-gold" data-i18n="sec1Tag">
+                I. Bản Giao Hưởng Của Đá Và Nước
+            </span>
+            <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-semibold text-limestone-100 leading-tight" data-i18n="sec1Title">
+                “Mỗi ngọn núi đá vôi là một trang sử trầm tích, mỗi con sóng là một nhịp thở của thời gian.”
+            </h2>
+            <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-lacquer-gold to-transparent mx-auto"></div>
+        </div>
+
+        <!-- 4 Iconic Numbers in Lacquer Frames -->
+        <div class="reveal grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-20">
+            <div class="lacquer-card p-6 sm:p-8 rounded-3xl text-center">
+                <p class="font-serif text-4xl sm:text-5xl font-bold text-gold-gradient">1.969</p>
+                <p class="text-xs uppercase tracking-widest text-lacquer-gold mt-2 font-semibold" data-i18n="stat1Label">Đảo Lớn Nhỏ</p>
+                <p class="text-xs sm:text-sm text-limestone-200/75 mt-2" data-i18n="stat1Desc">989 hòn đảo đã được đặt tên gắn liền với truyền thuyết dân gian</p>
+            </div>
+            <div class="lacquer-card p-6 sm:p-8 rounded-3xl text-center">
+                <p class="font-serif text-4xl sm:text-5xl font-bold text-gold-gradient">500M</p>
+                <p class="text-xs uppercase tracking-widest text-lacquer-gold mt-2 font-semibold" data-i18n="stat2Label">Năm Kiến Tạo</p>
+                <p class="text-xs sm:text-sm text-limestone-200/75 mt-2" data-i18n="stat2Desc">Quá trình tiến hóa karst nhiệt đới ẩm độc nhất vô nhị trên thế giới</p>
+            </div>
+            <div class="lacquer-card p-6 sm:p-8 rounded-3xl text-center">
+                <p class="font-serif text-4xl sm:text-5xl font-bold text-gold-gradient">1.553</p>
+                <p class="text-xs uppercase tracking-widest text-lacquer-gold mt-2 font-semibold" data-i18n="stat3Label">Km² Diện Tích</p>
+                <p class="text-xs sm:text-sm text-limestone-200/75 mt-2" data-i18n="stat3Desc">Ba lần được UNESCO vinh danh Di sản Thiên nhiên Thế giới</p>
+            </div>
+            <div class="lacquer-card p-6 sm:p-8 rounded-3xl text-center">
+                <p class="font-serif text-4xl sm:text-5xl font-bold text-gold-gradient">3</p>
+                <p class="text-xs uppercase tracking-widest text-lacquer-gold mt-2 font-semibold" data-i18n="stat4Label">Nền Văn Hóa Cổ</p>
+                <p class="text-xs sm:text-sm text-limestone-200/75 mt-2" data-i18n="stat4Desc">Soi Nhụ, Cái Bèo và Hạ Long — cái nôi của người Việt cổ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 2: KỲ QUAN ĐỊA CHẤT & HUYỀN THOẠI (INTERACTIVE MAP EXPLORER)  -->
+    <!-- ===================================================================== -->
+    <section id="explorer" class="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-[0.28em] text-lacquer-gold" data-i18n="sec2Tag">
+                        II. Hải Trình Khám Phá
+                    </span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-limestone-100 mt-2" data-i18n="sec2Title">
+                        Bản Đồ Kỳ Quan & Huyền Thoại
+                    </h2>
+                </div>
+                <p class="text-sm text-limestone-200/80 max-w-md" data-i18n="sec2Hint">
+                    Chạm vào từng tọa độ phát sáng trên hải đồ hoặc chọn địa danh bên dưới để giải mã câu chuyện địa chất và truyền thuyết ẩn giấu.
+                </p>
+            </div>
+
+            <div class="reveal grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- Left: Custom Illustrated Interactive Archipelago Map (7 Cols) -->
+                <div class="lg:col-span-7 lacquer-card rounded-3xl p-4 sm:p-6 relative overflow-hidden flex flex-col justify-between min-h-[380px] sm:min-h-[460px]">
+                    <!-- Nautical Compass Rose Watermark -->
+                    <div class="absolute top-4 right-4 text-lacquer-gold/25 text-5xl pointer-events-none">
+                        <i class="fa-regular fa-compass"></i>
+                    </div>
+
+                    <!-- Interactive SVG Archipelago Illustration -->
+                    <svg viewBox="0 0 800 500" class="w-full h-full rounded-2xl bg-gradient-to-b from-[#042427] via-[#073a3e] to-[#03191b] border border-lacquer-gold/20 select-none">
+                        <defs>
+                            <radialGradient id="waterGlow" cx="50%" cy="50%" r="55%">
+                                <stop offset="0%" stop-color="#157f76" stop-opacity="0.35"/>
+                                <stop offset="100%" stop-color="#021214" stop-opacity="0"/>
+                            </radialGradient>
+                            <linearGradient id="karstFill" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#1d5b56"/>
+                                <stop offset="100%" stop-color="#072224"/>
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Ocean Depth Rings & Nautical Grid Lines -->
+                        <rect width="800" height="500" fill="url(#waterGlow)"/>
+                        <g stroke="rgba(217, 167, 90, 0.12)" stroke-width="1" stroke-dasharray="4 6">
+                            <line x1="0" y1="125" x2="800" y2="125"/>
+                            <line x1="0" y1="250" x2="800" y2="250"/>
+                            <line x1="0" y1="375" x2="800" y2="375"/>
+                            <line x1="200" y1="0" x2="200" y2="500"/>
+                            <line x1="400" y1="0" x2="400" y2="500"/>
+                            <line x1="600" y1="0" x2="600" y2="500"/>
+                        </g>
+
+                        <!-- Dotted Sailing Route Path -->
+                        <path d="M 190 330 Q 290 220, 395 265 T 575 185 T 640 345" fill="none" stroke="#d9a75a" stroke-width="2" stroke-dasharray="6 6" opacity="0.65"/>
+
+                        <!-- Background Decorative Karst Silhouettes -->
+                        <path d="M 60 150 Q 95 75, 135 120 Q 165 65, 205 150 Z" fill="url(#karstFill)" opacity="0.6"/>
+                        <path d="M 440 110 Q 485 45, 520 95 Q 555 55, 595 115 Z" fill="url(#karstFill)" opacity="0.55"/>
+                        <path d="M 270 430 Q 320 365, 365 430 Z" fill="url(#karstFill)" opacity="0.5"/>
+
+                        <!-- Landmark 1: Hòn Trống Mái (x=190, y=330) -->
+                        <g class="cursor-pointer group" onclick="selectLandmark('trongmai')">
+                            <!-- Custom Fighting Cocks Silhouette -->
+                            <path d="M 155 345 L 165 295 Q 178 285, 185 302 L 182 345 Z" fill="#1b6b63" stroke="#d9a75a" stroke-width="1.2"/>
+                            <path d="M 192 345 L 195 298 Q 208 282, 222 298 L 215 345 Z" fill="#1b6b63" stroke="#d9a75a" stroke-width="1.2"/>
+                            <circle cx="190" cy="330" r="14" fill="rgba(217, 167, 90, 0.25)" class="hotspot-ring"/>
+                            <circle id="dot-trongmai" cx="190" cy="330" r="7" fill="#f2cb7e" stroke="#021214" stroke-width="2"/>
+                            <text x="190" y="370" text-anchor="middle" fill="#f5f1e6" font-size="13" font-weight="600">1. Hòn Trống Mái</text>
+                        </g>
+
+                        <!-- Landmark 2: Đảo Ti Tốp (x=395, y=265) -->
+                        <g class="cursor-pointer group" onclick="selectLandmark('titop')">
+                            <path d="M 355 280 Q 395 195, 435 280 Z" fill="#1b6b63" stroke="#d9a75a" stroke-width="1.2"/>
+                            <path d="M 365 280 Q 395 270, 425 280 Z" fill="#f2cb7e" opacity="0.75"/>
+                            <circle cx="395" cy="265" r="14" fill="rgba(217, 167, 90, 0.25)" class="hotspot-ring"/>
+                            <circle id="dot-titop" cx="395" cy="265" r="7" fill="#78d4ca" stroke="#021214" stroke-width="2"/>
+                            <text x="395" y="305" text-anchor="middle" fill="#f5f1e6" font-size="13" font-weight="600">2. Đảo Ti Tốp</text>
+                        </g>
+
+                        <!-- Landmark 3: Hang Sửng Sốt (x=575, y=185) -->
+                        <g class="cursor-pointer group" onclick="selectLandmark('sungsot')">
+                            <path d="M 520 205 Q 550 120, 585 140 Q 615 115, 640 205 Z" fill="#1b6b63" stroke="#d9a75a" stroke-width="1.2"/>
+                            <path d="M 565 205 Q 578 175, 592 205 Z" fill="#021214"/>
+                            <circle cx="575" cy="185" r="14" fill="rgba(217, 167, 90, 0.25)" class="hotspot-ring"/>
+                            <circle id="dot-sungsot" cx="575" cy="185" r="7" fill="#78d4ca" stroke="#021214" stroke-width="2"/>
+                            <text x="575" y="228" text-anchor="middle" fill="#f5f1e6" font-size="13" font-weight="600">3. Hang Sửng Sốt</text>
+                        </g>
+
+                        <!-- Landmark 4: Làng chài Cửa Vạn (x=640, y=345) -->
+                        <g class="cursor-pointer group" onclick="selectLandmark('cuavan')">
+                            <path d="M 595 350 Q 640 275, 690 350 Z" fill="#1b6b63" stroke="#d9a75a" stroke-width="1.2"/>
+                            <!-- Floating Village Rafts -->
+                            <rect x="615" y="346" width="16" height="7" rx="2" fill="#f2cb7e"/>
+                            <rect x="636" y="348" width="18" height="7" rx="2" fill="#f2cb7e"/>
+                            <circle cx="640" cy="345" r="14" fill="rgba(217, 167, 90, 0.25)" class="hotspot-ring"/>
+                            <circle id="dot-cuavan" cx="640" cy="345" r="7" fill="#78d4ca" stroke="#021214" stroke-width="2"/>
+                            <text x="640" y="385" text-anchor="middle" fill="#f5f1e6" font-size="13" font-weight="600">4. Làng chài Cửa Vạn</text>
+                        </g>
+                    </svg>
+
+                    <!-- Quick Landmark Selector Pills -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
+                        <button onclick="selectLandmark('trongmai')" id="tab-trongmai" class="landmark-tab px-3 py-2 rounded-xl text-xs font-semibold bg-lacquer-gold text-lagoon-950 transition-all">
+                            Hòn Trống Mái
+                        </button>
+                        <button onclick="selectLandmark('titop')" id="tab-titop" class="landmark-tab px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-limestone-200 hover:bg-white/10 transition-all">
+                            Đảo Ti Tốp
+                        </button>
+                        <button onclick="selectLandmark('sungsot')" id="tab-sungsot" class="landmark-tab px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-limestone-200 hover:bg-white/10 transition-all">
+                            Hang Sửng Sốt
+                        </button>
+                        <button onclick="selectLandmark('cuavan')" id="tab-cuavan" class="landmark-tab px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-limestone-200 hover:bg-white/10 transition-all">
+                            Làng chài Cửa Vạn
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Ornate Storytelling Card (5 Cols) -->
+                <div class="lg:col-span-5 lacquer-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+                    <div class="space-y-5">
+                        <div class="flex items-center justify-between">
+                            <span id="lm-badge" class="px-3 py-1 rounded-full bg-lacquer-gold/15 border border-lacquer-gold/40 text-lacquer-amber text-xs font-semibold">
+                                Biểu tượng Bất diệt
+                            </span>
+                            <span id="lm-coords" class="font-mono text-xs text-jade-300">
+                                20°49′45″B 107°03′12″Đ
+                            </span>
+                        </div>
+
+                        <h3 id="lm-title" class="font-serif text-3xl sm:text-4xl font-bold text-gold-gradient">
+                            Hòn Trống Mái
+                        </h3>
+
+                        <p id="lm-story" class="text-sm sm:text-base text-limestone-100/90 leading-relaxed">
+                            Giữa mênh mông sóng nước, hai khối đá vôi khổng lồ cao hơn 12 mét chụm đầu vào nhau trên một chân đế thắt nhỏ tựa như đôi gà trống mái đang âu yếm. Trải qua hàng triệu năm sóng vỗ bào mòn, Hòn Trống Mái vẫn đứng hiên ngang như biểu tượng của tình yêu thủy chung và sức sống bền bỉ của con người Hạ Long.
+                        </p>
+
+                        <!-- Geological / Cultural Insight Box -->
+                        <div class="p-4 rounded-2xl bg-black/35 border border-white/10 space-y-1.5">
+                            <p class="text-xs uppercase tracking-wider text-lacquer-gold font-semibold flex items-center gap-2">
+                                <i class="fa-solid fa-gem"></i>
+                                <span data-i18n="geologyLabel">Dấu ấn Địa chất & Văn hóa</span>
+                            </p>
+                            <p id="lm-fact" class="text-xs sm:text-sm text-limestone-200/85 leading-relaxed">
+                                Hình thành từ quá trình xâm thực biển (marine notch) tác động lên tầng đá vôi kỷ Cacbon – Permi cách đây hơn 300 triệu năm.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Metric Bar -->
+                    <div class="grid grid-cols-2 gap-4 pt-6 mt-6 border-t border-white/10">
+                        <div>
+                            <p class="text-[11px] uppercase tracking-wider text-limestone-300/70" data-i18n="metric1Title">Đặc trưng nổi bật</p>
+                            <p id="lm-metric1" class="text-sm font-bold text-limestone-100 mt-0.5">Cao ~12m trên mặt biển</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] uppercase tracking-wider text-limestone-300/70" data-i18n="metric2Title">Thời điểm đẹp nhất</p>
+                            <p id="lm-metric2" class="text-sm font-bold text-lacquer-amber mt-0.5">Bình minh 05:30 – 06:30</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 3: HỒN CỐT ĐẤT MỎ & GÓC NHÌN NGƯỜI TRẺ HÒN GAI                -->
+    <!-- ===================================================================== -->
+    <section id="localsoul" class="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal max-w-3xl mb-14 space-y-3">
+                <span class="text-xs font-semibold uppercase tracking-[0.28em] text-lacquer-gold" data-i18n="sec3Tag">
+                    III. Hồn Cốt Đất Mỏ & Nhịp Sống Hòn Gai
+                </span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-limestone-100" data-i18n="sec3Title">
+                    Hạ Long Trong Mắt Một Người Trẻ Lớn Lên Bên Bờ Di Sản
+                </h2>
+                <p class="text-sm sm:text-base text-limestone-200/80 leading-relaxed" data-i18n="sec3Desc">
+                    Vượt ra ngoài những tấm bưu thiếp du lịch, Hạ Long với mình là tiếng còi tàu rẽ sóng buổi sớm, là con đường bao biển lộng gió sau giờ tan trường Hòn Gai, và là tinh thần “Kỷ luật và Đồng tâm” của vùng đất mỏ anh hùng.
+                </p>
+            </div>
+
+            <!-- Bento Grid of Local Soul -->
+            <div class="reveal grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- Card A: Quảng Ninh Museum (7 cols) -->
+                <div class="md:col-span-7 lacquer-card rounded-3xl p-7 sm:p-9 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 text-lacquer-gold/10 text-9xl pointer-events-none">
+                        <i class="fa-solid fa-cube"></i>
+                    </div>
+                    <div class="space-y-4 relative z-10">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-jade-500/20 text-jade-300 text-xs font-semibold">
+                            <i class="fa-solid fa-landmark"></i>
+                            <span data-i18n="bento1Tag">Kiến trúc & Lịch sử</span>
+                        </div>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold text-limestone-100" data-i18n="bento1Title">
+                            Bảo Tàng Quảng Ninh — “Viên Ngọc Đen” Bên Bờ Vịnh
+                        </h3>
+                        <p class="text-sm sm:text-base text-limestone-200/85 leading-relaxed" data-i18n="bento1Desc">
+                            Với lớp kính đen tuyền phản chiếu trọn vẹn mây trời và núi đá vịnh Hạ Long, công trình này lấy cảm hứng từ than đá — thứ khoáng sản đã nuôi dưỡng bao thế hệ người dân vùng mỏ. Bên trong là hành trình xuyên suốt từ đáy đại dương cổ đại đến những hầm lò kiên cường.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs text-lacquer-amber font-medium">
+                        <span data-i18n="bento1Loc"><i class="fa-solid fa-location-dot mr-1.5"></i>Đường Trần Quốc Nghiễn, Hòn Gai</span>
+                        <span>“Kỷ luật & Đồng tâm”</span>
+                    </div>
+                </div>
+
+                <!-- Card B: Culinary Heritage (5 cols) -->
+                <div class="md:col-span-5 lacquer-card rounded-3xl p-7 sm:p-9 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lacquer-gold/15 text-lacquer-amber text-xs font-semibold">
+                            <i class="fa-solid fa-utensils"></i>
+                            <span data-i18n="bento2Tag">Tinh hoa Ẩm thực Biển</span>
+                        </div>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold text-limestone-100" data-i18n="bento2Title">
+                            Chả Mực Giã Tay & Bánh Cuốn Nóng Buổi Sớm
+                        </h3>
+                        <p class="text-sm sm:text-base text-limestone-200/85 leading-relaxed" data-i18n="bento2Desc">
+                            Được giã hoàn toàn bằng tay từ những con mực mai tươi rói đánh bắt ngay tại vùng biển Hạ Long, từng miếng chả mực vàng ruộm, giòn sần sật ăn kèm bánh cuốn nóng hổi là hương vị không thể trộn lẫn của mỗi buổi sáng Hòn Gai.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-white/10 text-xs text-jade-300 font-medium" data-i18n="bento2Note">
+                        <i class="fa-solid fa-award mr-1.5 text-lacquer-gold"></i>Top 50 đặc sản quà tặng nổi tiếng Việt Nam
+                    </div>
+                </div>
+
+                <!-- Card C: Tran Quoc Nghien Coastal Road (5 cols) -->
+                <div class="md:col-span-5 lacquer-card rounded-3xl p-7 sm:p-9 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-jade-500/20 text-jade-300 text-xs font-semibold">
+                            <i class="fa-solid fa-road"></i>
+                            <span data-i18n="bento3Tag">Nhịp sống Bản địa</span>
+                        </div>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold text-limestone-100" data-i18n="bento3Title">
+                            Cung Đường Bao Biển Trần Quốc Nghiễn
+                        </h3>
+                        <p class="text-sm sm:text-base text-limestone-200/85 leading-relaxed" data-i18n="bento3Desc">
+                            Một bên là vách núi Bài Thơ trầm mặc, một bên là vịnh biển mênh mông gió lộng. Đây là nơi người dân Hạ Long dạo bước mỗi chiều tà, ngắm nhìn cầu Bãi Cháy lên đèn và cảm nhận hơi thở của một thành phố biển hiện đại, văn minh.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-white/10 text-xs text-lacquer-amber font-medium" data-i18n="bento3Note">
+                        <i class="fa-solid fa-wind mr-1.5"></i>Cung đường ven biển đẹp bậc nhất miền Bắc
+                    </div>
+                </div>
+
+                <!-- Card D: Personal Reflection from Hon Gai Student (7 cols) -->
+                <div class="md:col-span-7 lacquer-card rounded-3xl p-7 sm:p-9 flex flex-col justify-between bg-gradient-to-br from-jade-500/15 to-transparent">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lacquer-gold/20 text-lacquer-amber text-xs font-semibold">
+                            <i class="fa-solid fa-feather-pointed"></i>
+                            <span data-i18n="bento4Tag">Tự sự Người trẻ Hòn Gai</span>
+                        </div>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold text-gold-gradient" data-i18n="bento4Title">
+                            Từ Bờ Vịnh Di Sản Vươn Ra Chân Trời Tri Thức
+                        </h3>
+                        <p class="text-sm sm:text-base text-limestone-100/90 leading-relaxed" data-i18n="bento4Desc">
+                            Lớn lên dưới mái trường THPT Hòn Gai ngay bên bờ vịnh, mình học được từ biển cả sự bao dung và khát vọng khám phá không giới hạn; học được từ những dãy núi đá vôi sự vững vàng trước sóng gió. Dù mai này hành trình học tập có đưa mình đến giảng đường Đại học Kinh tế Quốc dân (NEU) hay bất cứ chân trời nào, Vịnh Hạ Long mãi là điểm tựa tự hào nhất trong trái tim.
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                        <span class="text-xs text-limestone-200/80 font-medium">— Lại Đoàn Đức Long (THPT Hòn Gai)</span>
+                        <a href="index.html" class="inline-flex items-center gap-2 text-xs font-semibold text-lacquer-amber hover:text-white transition-colors">
+                            <span data-i18n="backPortfolio">Xem Portfolio cá nhân</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- FOOTER                                                                -->
+    <!-- ===================================================================== -->
+    <footer class="relative border-t border-lacquer-gold/20 bg-black/50 py-10 px-4 sm:px-6 lg:px-10">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-limestone-200/75">
+            <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-lacquer-gold"></span>
+                <span class="font-serif text-base font-semibold text-limestone-100">Vịnh Hạ Long • Quảng Ninh, Việt Nam</span>
+            </div>
+            <p class="text-center sm:text-right text-lacquer-amber/90 font-medium">
+                Curated with pride from Hòn Gai, Hạ Long — Lại Đoàn Đức Long
+            </p>
+        </div>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- INTERACTIVE JAVASCRIPT: CANVAS SEASCAPE, MOODS, BILINGUAL & SOUND     -->
+    <!-- ===================================================================== -->
+    <script>
+        /* -------------------------------------------------------------------
+         * 1. BILINGUAL DATA DICTIONARY (VIETNAMESE & ENGLISH)
+         * ------------------------------------------------------------------- */
+        let currentLang = 'vi';
+
+        const translations = {
+            vi: {
+                navSubtitle: "Di sản & Hồn cốt",
+                navMoods: "Sắc thái Vịnh",
+                navMap: "Kỳ quan & Huyền thoại",
+                navCulture: "Hồn cốt Đất Mỏ",
+                soundOff: "Sóng Vịnh",
+                soundOn: "Đang phát sóng",
+                heroBadge: "20°54′B 107°12′Đ • Di sản Thiên nhiên Thế giới",
+                heroPreTitle: "Nơi Rồng Thiêng Hạ Thế Giữa Ngàn Trùng Sóng Biếc",
+                heroTitle: "Vịnh Hạ Long",
+                heroDesc: "Hơn 1.600 đảo đá vôi trầm mặc vươn lên từ làn nước ngọc lục bảo — một bức tranh thủy mặc khổng lồ được thiên nhiên tạc nên suốt 500 triệu năm kiến tạo, và là niềm tự hào bất tận trong tim mỗi người con đất mỏ Quảng Ninh.",
+                moodDawn: "Bình minh Sương khói",
+                moodSunset: "Hoàng hôn Rực lửa",
+                moodNight: "Đêm Lân tinh",
+                scrollCue: "Khám phá chiều sâu di sản",
+                sec1Tag: "I. Bản Giao Hưởng Của Đá Và Nước",
+                sec1Title: "“Mỗi ngọn núi đá vôi là một trang sử trầm tích, mỗi con sóng là một nhịp thở của thời gian.”",
+                stat1Label: "Đảo Lớn Nhỏ",
+                stat1Desc: "989 hòn đảo đã được đặt tên gắn liền với truyền thuyết dân gian",
+                stat2Label: "Năm Kiến Tạo",
+                stat2Desc: "Quá trình tiến hóa karst nhiệt đới ẩm độc nhất vô nhị trên thế giới",
+                stat3Label: "Km² Diện Tích",
+                stat3Desc: "Ba lần được UNESCO vinh danh Di sản Thiên nhiên Thế giới",
+                stat4Label: "Nền Văn Hóa Cổ",
+                stat4Desc: "Soi Nhụ, Cái Bèo và Hạ Long — cái nôi của người Việt cổ",
+                sec2Tag: "II. Hải Trình Khám Phá",
+                sec2Title: "Bản Đồ Kỳ Quan & Huyền Thoại",
+                sec2Hint: "Chạm vào từng tọa độ phát sáng trên hải đồ hoặc chọn địa danh bên dưới để giải mã câu chuyện địa chất và truyền thuyết ẩn giấu.",
+                geologyLabel: "Dấu ấn Địa chất & Văn hóa",
+                metric1Title: "Đặc trưng nổi bật",
+                metric2Title: "Thời điểm đẹp nhất",
+                sec3Tag: "III. Hồn Cốt Đất Mỏ & Nhịp Sống Hòn Gai",
+                sec3Title: "Hạ Long Trong Mắt Một Người Trẻ Lớn Lên Bên Bờ Di Sản",
+                sec3Desc: "Vượt ra ngoài những tấm bưu thiếp du lịch, Hạ Long với mình là tiếng còi tàu rẽ sóng buổi sớm, là con đường bao biển lộng gió sau giờ tan trường Hòn Gai, và là tinh thần “Kỷ luật và Đồng tâm” của vùng đất mỏ anh hùng.",
+                bento1Tag: "Kiến trúc & Lịch sử",
+                bento1Title: "Bảo Tàng Quảng Ninh — “Viên Ngọc Đen” Bên Bờ Vịnh",
+                bento1Desc: "Với lớp kính đen tuyền phản chiếu trọn vẹn mây trời và núi đá vịnh Hạ Long, công trình này lấy cảm hứng từ than đá — thứ khoáng sản đã nuôi dưỡng bao thế hệ người dân vùng mỏ. Bên trong là hành trình xuyên suốt từ đáy đại dương cổ đại đến những hầm lò kiên cường.",
+                bento1Loc: "Đường Trần Quốc Nghiễn, Hòn Gai",
+                bento2Tag: "Tinh hoa Ẩm thực Biển",
+                bento2Title: "Chả Mực Giã Tay & Bánh Cuốn Nóng Buổi Sớm",
+                bento2Desc: "Được giã hoàn toàn bằng tay từ những con mực mai tươi rói đánh bắt ngay tại vùng biển Hạ Long, từng miếng chả mực vàng ruộm, giòn sần sật ăn kèm bánh cuốn nóng hổi là hương vị không thể trộn lẫn của mỗi buổi sáng Hòn Gai.",
+                bento2Note: "Top 50 đặc sản quà tặng nổi tiếng Việt Nam",
+                bento3Tag: "Nhịp sống Bản địa",
+                bento3Title: "Cung Đường Bao Biển Trần Quốc Nghiễn",
+                bento3Desc: "Một bên là vách núi Bài Thơ trầm mặc, một bên là vịnh biển mênh mông gió lộng. Đây là nơi người dân Hạ Long dạo bước mỗi chiều tà, ngắm nhìn cầu Bãi Cháy lên đèn và cảm nhận hơi thở của một thành phố biển hiện đại, văn minh.",
+                bento3Note: "Cung đường ven biển đẹp bậc nhất miền Bắc",
+                bento4Tag: "Tự sự Người trẻ Hòn Gai",
+                bento4Title: "Từ Bờ Vịnh Di Sản Vươn Ra Chân Trời Tri Thức",
+                bento4Desc: "Lớn lên dưới mái trường THPT Hòn Gai ngay bên bờ vịnh, mình học được từ biển cả sự bao dung và khát vọng khám phá không giới hạn; học được từ những dãy núi đá vôi sự vững vàng trước sóng gió. Dù mai này hành trình học tập có đưa mình đến giảng đường Đại học Kinh tế Quốc dân (NEU) hay bất cứ chân trời nào, Vịnh Hạ Long mãi là điểm tựa tự hào nhất trong trái tim.",
+                backPortfolio: "Xem Portfolio cá nhân"
+            },
+            en: {
+                navSubtitle: "Heritage & Soul",
+                navMoods: "Bay Atmospheres",
+                navMap: "Wonders & Legends",
+                navCulture: "Local Soul",
+                soundOff: "Bay Tide",
+                soundOn: "Tide Playing",
+                heroBadge: "20°54′N 107°12′E • UNESCO World Natural Heritage",
+                heroPreTitle: "Where Descending Dragons Meet Emerald Waters",
+                heroTitle: "Ha Long Bay",
+                heroDesc: "Over 1,600 monolithic limestone karsts rising majestically from jade-green waters — a living ink-wash masterpiece sculpted across 500 million years of geological evolution, and the eternal pride of Quang Ninh's youth.",
+                moodDawn: "Misty Dawn",
+                moodSunset: "Crimson Sunset",
+                moodNight: "Bioluminescent Night",
+                scrollCue: "Dive into the heritage",
+                sec1Tag: "I. Symphony of Stone & Water",
+                sec1Title: "“Every limestone pillar is a sedimentary chapter of Earth; every ripple is a breath of eternity.”",
+                stat1Label: "Limestone Islets",
+                stat1Desc: "989 named islands steeped in ancient Vietnamese folklore",
+                stat2Label: "Years of Evolution",
+                stat2Desc: "The world's finest example of humid tropical tower karst",
+                stat3Label: "Sq. Kilometers",
+                stat3Desc: "Three-time UNESCO World Natural Heritage honoree",
+                stat4Label: "Ancient Cultures",
+                stat4Desc: "Soi Nhu, Cai Beo & Ha Long — cradles of prehistoric Vietnam",
+                sec2Tag: "II. Nautical Expedition",
+                sec2Title: "Interactive Chart of Wonders & Legends",
+                sec2Hint: "Select any glowing beacon on the nautical chart below to uncover its geological story and mythic heritage.",
+                geologyLabel: "Geological & Cultural Footprint",
+                metric1Title: "Signature Feature",
+                metric2Title: "Golden Hour",
+                sec3Tag: "III. The Mining Land & Hon Gai Rhythm",
+                sec3Title: "Ha Long Through the Eyes of a Hon Gai Native",
+                sec3Desc: "Beyond postcard panoramas, Ha Long to me is the morning horn of ferries cutting across the mist, the breezy coastal boulevard after classes at Hon Gai High School, and the resilient spirit of 'Discipline and Unity'.",
+                bento1Tag: "Architecture & History",
+                bento1Title: "Quang Ninh Museum — The 'Black Pearl' by the Bay",
+                bento1Desc: "Clad in obsidian glass mirroring Ha Long's sky and karsts, this architectural icon pays homage to coal — the 'black gold' that shaped Quang Ninh's history, housing artifacts from prehistoric oceans to heroic mining eras.",
+                bento1Loc: "Tran Quoc Nghien Blvd, Hon Gai",
+                bento2Tag: "Culinary Heritage",
+                bento2Title: "Hand-Pounded Squid Cake & Steamed Rice Rolls",
+                bento2Desc: "Crafted entirely by hand from fresh cuttlefish caught in Ha Long's waters, golden crispy Cha Muc paired with delicate steamed rice rolls defines the unforgettable morning aroma of Hon Gai.",
+                bento2Note: "Top 50 Iconic Vietnamese Culinary Specialties",
+                bento3Tag: "Local Pulse",
+                bento3Title: "Tran Quoc Nghien Coastal Boulevard",
+                bento3Desc: "Flanked by the poetic cliffs of Bai Tho Mountain on one side and the open bay on the other, this seaside promenade is where locals gather at dusk to watch Bai Chay Bridge illuminate the horizon.",
+                bento3Note: "Northern Vietnam's most scenic coastal avenue",
+                bento4Tag: "Reflections from Hon Gai",
+                bento4Title: "From Heritage Shores to Horizons of Knowledge",
+                bento4Desc: "Growing up at Hon Gai High School right beside the bay taught me boundless curiosity from the open sea and steadfast resilience from the limestone peaks. Wherever my academic path leads — from National Economics University (NEU) to the wider world — Ha Long Bay remains my proudest anchor.",
+                backPortfolio: "View Personal Portfolio"
+            }
+        };
+
+        /* -------------------------------------------------------------------
+         * 2. INTERACTIVE LANDMARK EXPLORER DATA
+         * ------------------------------------------------------------------- */
+        let activeLandmarkKey = 'trongmai';
+
+        const landmarksData = {
+            trongmai: {
+                coords: "20°49′45″B 107°03′12″Đ",
+                vi: {
+                    badge: "Biểu tượng Bất diệt",
+                    title: "Hòn Trống Mái",
+                    story: "Giữa mênh mông sóng nước, hai khối đá vôi khổng lồ cao hơn 12 mét chụm đầu vào nhau trên một chân đế thắt nhỏ tựa như đôi gà trống mái đang âu yếm. Trải qua hàng triệu năm sóng vỗ bào mòn, Hòn Trống Mái vẫn đứng hiên ngang như biểu tượng của tình yêu thủy chung và sức sống bền bỉ của con người Hạ Long.",
+                    fact: "Hình thành từ quá trình xâm thực biển (marine notch) tác động lên tầng đá vôi kỷ Cacbon – Permi cách đây hơn 300 triệu năm.",
+                    metric1: "Cao ~12m trên mặt biển",
+                    metric2: "Bình minh 05:30 – 06:30"
+                },
+                en: {
+                    badge: "Eternal Emblem",
+                    title: "Fighting Cocks Islet",
+                    story: "Rising over 12 meters above emerald waves on slender eroded bases, two monolithic limestone pillars lean toward each other like a pair of affectionate cocks. Enduring millennia of tides, it stands as the timeless symbol of fidelity and resilience of Ha Long.",
+                    fact: "Sculpted by marine tidal notching into Carboniferous–Permian limestone strata dating back over 300 million years.",
+                    metric1: "~12m above sea level",
+                    metric2: "Dawn 05:30 – 06:30"
+                }
+            },
+            titop: {
+                coords: "20°51′32″B 107°04′48″Đ",
+                vi: {
+                    badge: "Toàn cảnh 360°",
+                    title: "Đảo Ti Tốp",
+                    story: "Nổi bật với bãi cát trắng hình vầng trăng khuyết ôm trọn chân núi đá dựng đứng. Sau khi chinh phục hơn 400 bậc đá lên tới đỉnh, toàn bộ vịnh Hạ Long mở ra như một bức tranh thủy mặc 360 độ với hàng trăm cánh buồm nâu lướt nhẹ giữa trùng điệp đảo xanh.",
+                    fact: "Năm 1962, Chủ tịch Hồ Chí Minh đã đặt tên đảo theo nhà du hành vũ trụ Liên Xô Gherman Titov nhân chuyến thăm lịch sử tới vùng mỏ.",
+                    metric1: "Hơn 400 bậc đá lên đỉnh",
+                    metric2: "Hoàng hôn 16:45 – 17:45"
+                },
+                en: {
+                    badge: "360° Panorama",
+                    title: "Ti Top Island",
+                    story: "Graced by a crescent white-sand beach cradling a steep karst peak. Climbing over 400 stone steps reveals a breathtaking 360-degree ink-wash panorama of emerald islands and traditional sails gliding across the bay.",
+                    fact: "Named in 1962 by President Ho Chi Minh after Soviet cosmonaut Gherman Titov during his historic visit to Quang Ninh.",
+                    metric1: "400+ stone steps to summit",
+                    metric2: "Sunset 16:45 – 17:45"
+                }
+            },
+            sungsot: {
+                coords: "20°50′40″B 107°05′28″Đ",
+                vi: {
+                    badge: "Thánh đường Lòng đất",
+                    title: "Hang Sửng Sốt",
+                    story: "Nằm trên đảo Bồ Hòn ở trung tâm di sản, Hang Sửng Sốt mở ra một không gian rộng hơn 10.000 m² với vòm trần cao vút như một nhà hát opera tự nhiên. Hàng vạn nhũ đá và măng đá lấp lánh ánh vàng gợi hình ảnh Thánh Gióng cưỡi ngựa trời bay lên sau khi đánh tan giặc Ân.",
+                    fact: "Được người Pháp đặt tên 'Grotte des Surprises' năm 1901 vì sự choáng ngợp khi bước từ khe đá hẹp vào khoang động khổng lồ.",
+                    metric1: "Diện tích > 10.000 m²",
+                    metric2: "Nhiệt độ mát mẻ quanh năm"
+                },
+                en: {
+                    badge: "Subterranean Cathedral",
+                    title: "Sung Sot (Surprise) Cave",
+                    story: "Hidden inside Bo Hon Island at the heart of the bay, this 10,000 m² cavern opens like a natural opera house. Thousands of shimmering stalactites evoke the legend of Saint Giong ascending to heaven after defending the nation.",
+                    fact: "Named 'Grotte des Surprises' in 1901 by French explorers astonished by its vast chambers concealed behind a narrow entrance.",
+                    metric1: "Over 10,000 m² cavern",
+                    metric2: "Cool microclimate year-round"
+                }
+            },
+            cuavan: {
+                coords: "20°49′10″B 107°08′15″Đ",
+                vi: {
+                    badge: "Di sản Sống trên Biển",
+                    title: "Làng Chài Cửa Vạn",
+                    story: "Ẩn mình trong vòng cung núi đá Vạ Giá lặng sóng, những ngôi nhà bè sơn màu rực rỡ neo đậu bình yên bên mặt nước xanh thẳm. Cửa Vạn lưu giữ trọn vẹn nếp sống vạn chài trăm năm cùng những làn điệu hát Ghẹo, hát Chèo đường vang vọng giữa vách núi.",
+                    fact: "Từng được vinh danh trong danh sách những ngôi làng cổ đẹp nhất thế giới và là cái nôi của văn hóa biển Hạ Long.",
+                    metric1: "Di sản văn hóa vạn chài",
+                    metric2: "Sáng sớm 06:00 – 08:00"
+                },
+                en: {
+                    badge: "Living Maritime Heritage",
+                    title: "Cua Van Floating Village",
+                    story: "Sheltered within the tranquil limestone amphitheater of Va Gia Mountain, colorful floating homes rest peacefully on deep jade waters, preserving centuries-old fishing traditions and traditional sea folk songs.",
+                    fact: "Recognized among the world's most picturesque ancient villages and a living museum of Ha Long's maritime culture.",
+                    metric1: "Centuries-old floating culture",
+                    metric2: "Early Morning 06:00 – 08:00"
+                }
+            }
+        };
+
+        function selectLandmark(key) {
+            activeLandmarkKey = key;
+            const item = landmarksData[key];
+            const content = item[currentLang];
+
+            document.getElementById('lm-coords').textContent = item.coords;
+            document.getElementById('lm-badge').textContent = content.badge;
+            document.getElementById('lm-title').textContent = content.title;
+            document.getElementById('lm-story').textContent = content.story;
+            document.getElementById('lm-fact').textContent = content.fact;
+            document.getElementById('lm-metric1').textContent = content.metric1;
+            document.getElementById('lm-metric2').textContent = content.metric2;
+
+            // Update SVG map active dot colors
+            ['trongmai', 'titop', 'sungsot', 'cuavan'].forEach(k => {
+                const dot = document.getElementById('dot-' + k);
+                const tab = document.getElementById('tab-' + k);
+                if (k === key) {
+                    dot.setAttribute('fill', '#f2cb7e');
+                    dot.setAttribute('r', '9');
+                    tab.className = "landmark-tab px-3 py-2 rounded-xl text-xs font-semibold bg-lacquer-gold text-lagoon-950 transition-all shadow-md";
+                } else {
+                    dot.setAttribute('fill', '#78d4ca');
+                    dot.setAttribute('r', '7');
+                    tab.className = "landmark-tab px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-limestone-200 hover:bg-white/10 transition-all";
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+
+            // Update toggle button styles
+            const btnVi = document.getElementById('btn-vi');
+            const btnEn = document.getElementById('btn-en');
+            if (lang === 'vi') {
+                btnVi.className = "px-2.5 py-1 rounded-full bg-lacquer-gold text-lagoon-950 transition-all";
+                btnEn.className = "px-2.5 py-1 rounded-full text-limestone-200 hover:text-white transition-all";
+            } else {
+                btnEn.className = "px-2.5 py-1 rounded-full bg-lacquer-gold text-lagoon-950 transition-all";
+                btnVi.className = "px-2.5 py-1 rounded-full text-limestone-200 hover:text-white transition-all";
+            }
+
+            // Translate all [data-i18n] nodes
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            // Re-render current landmark card in selected language
+            selectLandmark(activeLandmarkKey);
+        }
+
+        /* -------------------------------------------------------------------
+         * 3. TIME-OF-DAY ATMOSPHERE SWITCHER & HTML5 CANVAS PAINTER
+         * ------------------------------------------------------------------- */
+        let currentMood = 'dawn';
+
+        const moodPalettes = {
+            dawn: {
+                skyTop: '#031d21',
+                skyMid: '#0d4e52',
+                skyHorizon: '#489c94',
+                sunColor: 'rgba(242, 203, 126, 0.42)',
+                karstFar: '#0c3f43',
+                karstMid: '#072a2d',
+                karstNear: '#031719',
+                waterTop: '#0b494d',
+                waterBottom: '#021214',
+                shimmer: 'rgba(242, 203, 126, 0.28)',
+                mist: 'rgba(180, 232, 224, 0.14)',
+                stars: false,
+                lanterns: false
+            },
+            sunset: {
+                skyTop: '#160a24',
+                skyMid: '#4c1d3d',
+                skyHorizon: '#d96b43',
+                sunColor: 'rgba(251, 191, 36, 0.52)',
+                karstFar: '#2e1530',
+                karstMid: '#1f0d22',
+                karstNear: '#120714',
+                waterTop: '#3b1834',
+                waterBottom: '#140b18',
+                shimmer: 'rgba(251, 146, 60, 0.35)',
+                mist: 'rgba(244, 162, 97, 0.12)',
+                stars: false,
+                lanterns: true
+            },
+            night: {
+                skyTop: '#01040d',
+                skyMid: '#051329',
+                skyHorizon: '#0b2948',
+                sunColor: 'rgba(226, 232, 240, 0.25)',
+                karstFar: '#081b33',
+                karstMid: '#041122',
+                karstNear: '#020813',
+                waterTop: '#061d36',
+                waterBottom: '#020817',
+                shimmer: 'rgba(94, 234, 212, 0.34)',
+                mist: 'rgba(56, 189, 248, 0.08)',
+                stars: true,
+                lanterns: true
+            }
+        };
+
+        function setMood(mood) {
+            currentMood = mood;
+            document.body.setAttribute('data-mood', mood);
+
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                if (btn.getAttribute('data-mood-btn') === mood) {
+                    btn.className = "mood-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium border transition-all flex items-center gap-2 bg-lacquer-gold text-lagoon-950 border-lacquer-gold shadow-lg";
+                } else {
+                    btn.className = "mood-btn px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium border transition-all flex items-center gap-2 bg-black/45 backdrop-blur-md text-limestone-100 border-white/20 hover:border-lacquer-gold/60";
+                }
+            });
+        }
+
+        // Responsive HTML5 Canvas Animation of Ha Long Bay
+        const canvas = document.getElementById('halong-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let pointerX = 0.5;
+        let starsArray = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            starsArray = Array.from({ length: 65 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * (height * 0.55),
+                r: Math.random() * 1.5 + 0.4,
+                phase: Math.random() * Math.PI * 2
+            }));
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => {
+            pointerX = e.clientX / Math.max(width, 1);
+        });
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches && e.touches[0]) {
+                pointerX = e.touches[0].clientX / Math.max(width, 1);
+            }
+        }, { passive: true });
+
+        function drawKarstPeak(points, fillStyle, parallaxOffset) {
+            ctx.beginPath();
+            ctx.moveTo(points[0][0] * width + parallaxOffset, points[0][1] * height);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i][0] * width + parallaxOffset, points[i][1] * height);
+            }
+            ctx.closePath();
+            ctx.fillStyle = fillStyle;
+            ctx.fill();
+        }
+
+        function animateBay(time) {
+            const t = time * 0.001;
+            const p = moodPalettes[currentMood];
+            const horizonY = height * 0.64;
+            const px = (pointerX - 0.5) * 28;
+
+            // 1. Sky Gradient
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY);
+            skyGrad.addColorStop(0, p.skyTop);
+            skyGrad.addColorStop(0.55, p.skyMid);
+            skyGrad.addColorStop(1, p.skyHorizon);
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, width, horizonY);
+
+            // 2. Stars (in Night mood)
+            if (p.stars) {
+                starsArray.forEach(s => {
+                    const alpha = 0.35 + 0.55 * Math.sin(t * 1.8 + s.phase);
+                    ctx.fillStyle = `rgba(245, 241, 230, ${alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+
+            // 3. Sun / Moon Glow & Sunbeams
+            const sunX = width * 0.72 + px * 0.3;
+            const sunY = horizonY * 0.58;
+            const sunGlow = ctx.createRadialGradient(sunX, sunY, 8, sunX, sunY, Math.min(width, height) * 0.42);
+            sunGlow.addColorStop(0, p.sunColor);
+            sunGlow.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = sunGlow;
+            ctx.fillRect(0, 0, width, horizonY);
+
+            // 4. Far Limestone Karst Range
+            drawKarstPeak([
+                [-0.05, 0.64], [0.06, 0.46], [0.12, 0.52], [0.18, 0.41],
+                [0.25, 0.55], [0.33, 0.44], [0.41, 0.58], [0.48, 0.64]
+            ], p.karstFar, px * 0.4);
+
+            drawKarstPeak([
+                [0.52, 0.64], [0.60, 0.43], [0.67, 0.50], [0.76, 0.38],
+                [0.84, 0.49], [0.92, 0.42], [1.05, 0.64]
+            ], p.karstFar, px * 0.4);
+
+            // 5. Drifting Morning Mist Layer 1
+            const mistOffset1 = Math.sin(t * 0.35) * 35;
+            ctx.fillStyle = p.mist;
+            ctx.beginPath();
+            ctx.ellipse(width * 0.3 + mistOffset1, horizonY - 12, width * 0.35, 28, 0, 0, Math.PI * 2);
+            ctx.ellipse(width * 0.75 - mistOffset1, horizonY - 8, width * 0.32, 24, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 6. Midground Karsts & Iconic Hòn Trống Mái Silhouette (Left-Center)
+            drawKarstPeak([
+                [0.08, 0.64], [0.10, 0.53], [0.125, 0.51], [0.135, 0.55], [0.128, 0.64]
+            ], p.karstMid, px * 0.85);
+            drawKarstPeak([
+                [0.142, 0.64], [0.145, 0.54], [0.168, 0.50], [0.185, 0.54], [0.172, 0.64]
+            ], p.karstMid, px * 0.85);
+
+            // Right Majestic Karst Island
+            drawKarstPeak([
+                [0.74, 0.64], [0.79, 0.46], [0.85, 0.49], [0.91, 0.39], [0.98, 0.52], [1.04, 0.64]
+            ], p.karstNear, px * 1.1);
+
+            // 7. Emerald Lagoon Water Surface
+            const waterGrad = ctx.createLinearGradient(0, horizonY, 0, height);
+            waterGrad.addColorStop(0, p.waterTop);
+            waterGrad.addColorStop(1, p.waterBottom);
+            ctx.fillStyle = waterGrad;
+            ctx.fillRect(0, horizonY, width, height - horizonY);
+
+            // 8. Shimmering Water Ripples & Bioluminescent / Golden Reflections
+            for (let i = 0; i < 26; i++) {
+                const progress = i / 26;
+                const y = horizonY + 8 + Math.pow(progress, 1.35) * (height - horizonY - 14);
+                const waveW = 24 + progress * 130;
+                const x = sunX + Math.sin(t * 1.4 + i * 0.9) * (35 + progress * 80) - waveW / 2;
+
+                ctx.strokeStyle = p.shimmer;
+                ctx.lineWidth = 1 + progress * 1.6;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + waveW, y);
+                ctx.stroke();
+            }
+
+            // 9. Traditional Junk Boat Silhouette with Warm Lantern
+            const boatX = width * 0.38 + Math.sin(t * 0.25) * 18 + px * 0.9;
+            const boatY = horizonY + (height - horizonY) * 0.22;
+            ctx.fillStyle = p.karstNear;
+            // Hull
+            ctx.beginPath();
+            ctx.moveTo(boatX - 22, boatY);
+            ctx.lineTo(boatX + 22, boatY);
+            ctx.lineTo(boatX + 15, boatY + 7);
+            ctx.lineTo(boatX - 15, boatY + 7);
+            ctx.closePath();
+            ctx.fill();
+            // Bat-wing Sail
+            ctx.beginPath();
+            ctx.moveTo(boatX - 4, boatY - 2);
+            ctx.lineTo(boatX - 4, boatY - 28);
+            ctx.quadraticCurveTo(boatX + 14, boatY - 20, boatX + 11, boatY - 3);
+            ctx.closePath();
+            ctx.fill();
+
+            if (p.lanterns) {
+                ctx.fillStyle = '#fbbf24';
+                ctx.beginPath();
+                ctx.arc(boatX - 10, boatY - 3, 2.2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            requestAnimationFrame(animateBay);
+        }
+
+        /* -------------------------------------------------------------------
+         * 4. OPTIONAL SYNTHESIZED WEB AUDIO OCEAN TIDE SOUNDSCAPE
+         * ------------------------------------------------------------------- */
+        let audioCtx = null;
+        let isPlayingSound = false;
+        let masterGain = null;
+
+        function toggleSoundscape() {
+            const icon = document.getElementById('audio-icon');
+            const label = document.getElementById('audio-label');
+
+            if (!isPlayingSound) {
+                if (!audioCtx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    audioCtx = new AudioContext();
+
+                    // Generate 4 seconds of soft brown noise for realistic gentle sea waves
+                    const bufferSize = audioCtx.sampleRate * 4;
+                    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const output = noiseBuffer.getChannelData(0);
+                    let lastOut = 0.0;
+                    for (let i = 0; i < bufferSize; i++) {
+                        const white = Math.random() * 2 - 1;
+                        output[i] = (lastOut + (0.02 * white)) / 1.02;
+                        lastOut = output[i];
+                        output[i] *= 2.8;
+                    }
+
+                    const whiteNoise = audioCtx.createBufferSource();
+                    whiteNoise.buffer = noiseBuffer;
+                    whiteNoise.loop = true;
+
+                    // Lowpass filter modulated slowly to mimic rolling ocean tide
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 340;
+
+                    const lfo = audioCtx.createOscillator();
+                    lfo.frequency.value = 0.12; // 1 wave cycle every ~8 seconds
+                    const lfoGain = audioCtx.createGain();
+                    lfoGain.gain.value = 180;
+                    lfo.connect(lfoGain);
+                    lfoGain.connect(filter.frequency);
+
+                    masterGain = audioCtx.createGain();
+                    masterGain.gain.value = 0.16;
+
+                    whiteNoise.connect(filter);
+                    filter.connect(masterGain);
+                    masterGain.connect(audioCtx.destination);
+
+                    whiteNoise.start();
+                    lfo.start();
+                } else if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                masterGain.gain.setTargetAtTime(0.16, audioCtx.currentTime, 0.5);
+                isPlayingSound = true;
+                icon.className = "fa-solid fa-volume-high text-lacquer-amber animate-pulse";
+                label.setAttribute('data-i18n', 'soundOn');
+                label.textContent = translations[currentLang].soundOn;
+            } else {
+                if (masterGain && audioCtx) {
+                    masterGain.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.4);
+                }
+                isPlayingSound = false;
+                icon.className = "fa-solid fa-volume-xmark text-lacquer-gold";
+                label.setAttribute('data-i18n', 'soundOff');
+                label.textContent = translations[currentLang].soundOff;
+            }
+        }
+
+        /* -------------------------------------------------------------------
+         * 5. SCROLL REVEAL OBSERVER & INITIALIZATION
+         * ------------------------------------------------------------------- */
+        window.addEventListener('load', () => {
+            resizeCanvas();
+            requestAnimationFrame(animateBay);
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
